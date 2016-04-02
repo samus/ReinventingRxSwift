@@ -8,12 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, Observer {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var outputLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
 
     let model = ModelObject()
+    var observables = [KVObservable]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,8 @@ class ViewController: UIViewController {
         textField.addTarget(self, action: #selector(textFieldChanged), forControlEvents: UIControlEvents.ValueChanged)
         countLabel.text = "0"
         
-        model.addObserver(self, forKeyPath: "uppercased", options: NSKeyValueObservingOptions([.Initial, .New]), context: nil)
+        observables.append(KVObservable(obj: model, keypath: "uppercased", observer: self))
+        
     }
     
     func textFieldChanged(sender: AnyObject) {
@@ -35,26 +37,11 @@ class ViewController: UIViewController {
         model.text = someStr
         countLabel.text = String(model.charCount)
     }
-
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        guard let theChange = change else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
-            return
-        }
-        if (keyPath == "uppercased") {
-            if let value = theChange[NSKeyValueChangeNewKey] as? String {
-                outputLabel.text = value
-            } else {
-                outputLabel.text = ""
-            }
-        }else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
-        }
-    }
     
-    deinit {
-        model.removeObserver(self, forKeyPath: "uppercased")
+    func next(value: String?) {
+        outputLabel.text = value
     }
+
 }
 
 @objc class ModelObject: NSObject {
