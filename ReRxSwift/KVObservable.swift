@@ -9,46 +9,63 @@
 import Foundation
 
 protocol Observer {
-    var next: String? -> Void {get set}
+    associatedtype Element
+    var next: Element -> Void {get set}
 }
 
-class AnonymousObserver: Observer {
-    var next: String? -> Void
-    init(next: String? -> Void){
+class AnonymousObserver<T>: Observer {
+    typealias Element = T
+    var next: Element -> Void
+    init(next: Element -> Void){
         self.next = next
     }
 }
 
-@objc class KVObservable: NSObject {
-    var observer: Observer?
+class KVObservable<T> {
     let observable: NSObject
     let keypath: String
+    
+    var observer: Any?
+    private var kvObserver: KVObserver?
     
     init(obj: NSObject, keypath: String) {
         self.observable = obj
         self.keypath = keypath
-        
-        super.init()
-        
-        obj.addObserver(self, forKeyPath: keypath, options: NSKeyValueObservingOptions([.Initial, .New]), context: nil)
-        
     }
     
-    func subscribe(next: String? -> Void){
-        let anon = AnonymousObserver(next: next)
-        anon.next(self.observable.valueForKey(keypath) as! String?)
+    func subscribe(next: T? -> Void){
+        let anon = AnonymousObserver<T?>(next: next)
+        let kv = KVObserver(obj: observable, keypath: keypath) { val in
+            if val as? NSNull != nil {
+                anon.next(nil)
+            }else {
+                anon.next(val as? T)
+            }
+        }
+        kvObserver = kv
         observer = anon
     }
+}
+
+@objc private class KVObserver: NSObject {
+    let observable: NSObject
+    let keypath: String
+    let callback: Any -> Void
     
+    init(obj: NSObject, keypath: String, callback: (Any -> Void)) {
+        observable = obj
+        self.keypath = keypath
+        self.callback = callback
+        super.init()
+        
+         obj.addObserver(self, forKeyPath: keypath, options: NSKeyValueObservingOptions([.Initial, .New]), context: nil)
+    }
+
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        guard let observer = self.observer, let theChange = change else {
+        guard let change = change else {
             return
         }
-        if let value = theChange[NSKeyValueChangeNewKey] as? String {
-            observer.next(value)
-        } else if let _ = theChange[NSKeyValueChangeNewKey] as? NSNull {
-            observer.next(nil)
-        }
+        callback(change[NSKeyValueChangeNewKey])
     }
     
     deinit {

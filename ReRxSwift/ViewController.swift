@@ -14,37 +14,44 @@ class ViewController: UIViewController {
     @IBOutlet weak var countLabel: UILabel!
 
     let model = ModelObject()
-    var observables = [KVObservable]()
+    var strObservables = [KVObservable<String>]()
+    var intObservables = [KVObservable<Int>]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.addTarget(self, action: #selector(textFieldChanged), forControlEvents: UIControlEvents.EditingChanged)
         
-        countLabel.text = "0"
-        
-        let ucaseObservable = KVObservable(obj: model, keypath: "uppercased")
+        let ucaseObservable = KVObservable<String>(obj: model, keypath: "uppercased")
         ucaseObservable.subscribe({ value in
             self.outputLabel.text = value
         })
-        observables.append(ucaseObservable)
+        strObservables.append(ucaseObservable)
         
-        let changedObservable = KVObservable(obj: textField, keypath: "text")
+        let changedObservable = KVObservable<String>(obj: textField, keypath: "text")
         changedObservable.subscribe { value in
             self.model.text = value
         }
-        observables.append(changedObservable)
+        strObservables.append(changedObservable)
+        
+        let countObservable = KVObservable<Int>(obj: model, keypath: "charCount")
+        countObservable.subscribe { value in
+            if let val = value {
+                self.countLabel.text = String(val)
+            }else {
+                self.countLabel.text = "0"
+            }
+        }
+        intObservables.append(countObservable)
         
     }
     
     func textFieldChanged(sender: AnyObject) {
         model.text = textField.text
-        countLabel.text = String(model.charCount)
     }
     
     @IBAction func outOfBandTapped(sender: AnyObject) {
         let someStr = "Out of band tapped"
         textField.text = someStr
-        countLabel.text = String(model.charCount)
     }
 
 }
