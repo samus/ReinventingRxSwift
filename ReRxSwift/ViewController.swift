@@ -14,13 +14,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var countLabel: UILabel!
 
     let model = ModelObject()
-    var observables = [Observable]()
+    var observables = [ObservableType]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.addTarget(self, action: #selector(textFieldChanged), forControlEvents: UIControlEvents.EditingChanged)
         
-        let ucaseObservable = KVObservable<String>(obj: model, keypath: "uppercased")
+        let ucaseObservable = KVObservable<String>(obj: model, keypath: "uppercased").printer()
         ucaseObservable.subscribe({ value in
             self.outputLabel.text = value
         })

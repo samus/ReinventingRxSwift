@@ -8,8 +8,18 @@
 
 import Foundation
 
-protocol Observable {
+protocol ObservableType {
     
+}
+
+class Observable<T>: ObservableType {
+    init() {
+        
+    }
+    func subscribe(next: T? -> Void) {
+        
+    }
+
 }
 
 protocol Observer {
@@ -25,7 +35,7 @@ class AnonymousObserver<T>: Observer {
     }
 }
 
-class KVObservable<T>: Observable {
+class KVObservable<T>: Observable<T> {
     let observable: NSObject
     let keypath: String
     
@@ -37,7 +47,7 @@ class KVObservable<T>: Observable {
         self.keypath = keypath
     }
     
-    func subscribe(next: T? -> Void){
+    override func subscribe(next: T? -> Void){
         let anon = AnonymousObserver<T?>(next: next)
         let kv = KVObserver(obj: observable, keypath: keypath) { val in
             if val as? NSNull != nil {

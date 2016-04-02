@@ -15,6 +15,8 @@
 		094B58A11CAF56EB00335E7C /* ReRxSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094B58A01CAF56EB00335E7C /* ReRxSwiftTests.swift */; };
 		094B58AC1CAF56EB00335E7C /* ReRxSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094B58AB1CAF56EB00335E7C /* ReRxSwiftUITests.swift */; };
 		094B58BB1CB01F6200335E7C /* KVObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094B58BA1CB01F6200335E7C /* KVObservable.swift */; };
+		094B58DB1CB0787E00335E7C /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094B58DA1CB0787E00335E7C /* Printer.swift */; };
+		094B58DD1CB078FC00335E7C /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094B58DC1CB078FC00335E7C /* Map.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		094B58AB1CAF56EB00335E7C /* ReRxSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReRxSwiftUITests.swift; sourceTree = "<group>"; };
 		094B58AD1CAF56EB00335E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		094B58BA1CB01F6200335E7C /* KVObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KVObservable.swift; sourceTree = "<group>"; };
+		094B58DA1CB0787E00335E7C /* Printer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Printer.swift; sourceTree = "<group>"; };
+		094B58DC1CB078FC00335E7C /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				094B58941CAF56EB00335E7C /* LaunchScreen.storyboard */,
 				094B58971CAF56EB00335E7C /* Info.plist */,
 				094B58BA1CB01F6200335E7C /* KVObservable.swift */,
+				094B58DA1CB0787E00335E7C /* Printer.swift */,
+				094B58DC1CB078FC00335E7C /* Map.swift */,
 			);
 			path = ReRxSwift;
 			sourceTree = "<group>";
@@ -259,6 +265,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				094B58DD1CB078FC00335E7C /* Map.swift in Sources */,
+				094B58DB1CB0787E00335E7C /* Printer.swift in Sources */,
 				094B588E1CAF56EB00335E7C /* ViewController.swift in Sources */,
 				094B58BB1CB01F6200335E7C /* KVObservable.swift in Sources */,
 				094B588C1CAF56EB00335E7C /* AppDelegate.swift in Sources */,
@@ -488,6 +496,7 @@
 				094B58B21CAF56EB00335E7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		094B58B31CAF56EB00335E7C /* Build configuration list for PBXNativeTarget "ReRxSwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +505,7 @@
 				094B58B51CAF56EB00335E7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		094B58B61CAF56EB00335E7C /* Build configuration list for PBXNativeTarget "ReRxSwiftUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +514,7 @@
 				094B58B81CAF56EB00335E7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
