@@ -14,8 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var countLabel: UILabel!
 
     let model = ModelObject()
-    var strObservables = [KVObservable<String>]()
-    var intObservables = [KVObservable<Int>]()
+    var observables = [Observable]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,13 +24,13 @@ class ViewController: UIViewController {
         ucaseObservable.subscribe({ value in
             self.outputLabel.text = value
         })
-        strObservables.append(ucaseObservable)
+        observables.append(ucaseObservable)
         
         let changedObservable = KVObservable<String>(obj: textField, keypath: "text")
         changedObservable.subscribe { value in
             self.model.text = value
         }
-        strObservables.append(changedObservable)
+        observables.append(changedObservable)
         
         let countObservable = KVObservable<Int>(obj: model, keypath: "charCount")
         countObservable.subscribe { value in
@@ -41,7 +40,7 @@ class ViewController: UIViewController {
                 self.countLabel.text = "0"
             }
         }
-        intObservables.append(countObservable)
+        observables.append(countObservable)
         
     }
     

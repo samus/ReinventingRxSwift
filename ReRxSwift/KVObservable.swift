@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol Observable {
+    
+}
+
 protocol Observer {
     associatedtype Element
     var next: Element -> Void {get set}
@@ -21,7 +25,7 @@ class AnonymousObserver<T>: Observer {
     }
 }
 
-class KVObservable<T> {
+class KVObservable<T>: Observable {
     let observable: NSObject
     let keypath: String
     
