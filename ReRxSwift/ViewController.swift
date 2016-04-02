@@ -19,13 +19,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         textField.addTarget(self, action: #selector(textFieldChanged), forControlEvents: UIControlEvents.EditingChanged)
         textField.addTarget(self, action: #selector(textFieldChanged), forControlEvents: UIControlEvents.ValueChanged)
-        outputLabel.text = ""
         countLabel.text = "0"
+        
+        model.addObserver(self, forKeyPath: "uppercased", options: NSKeyValueObservingOptions([.Initial, .New]), context: nil)
     }
     
     func textFieldChanged(sender: AnyObject) {
         model.text = textField.text
-        outputLabel.text = model.uppercased
         countLabel.text = String(model.charCount)
     }
     
@@ -33,10 +33,28 @@ class ViewController: UIViewController {
         let someStr = "Out of band tapped"
         textField.text = someStr
         model.text = someStr
-        outputLabel.text = model.uppercased
         countLabel.text = String(model.charCount)
     }
 
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        guard let theChange = change else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            return
+        }
+        if (keyPath == "uppercased") {
+            if let value = theChange[NSKeyValueChangeNewKey] as? String {
+                outputLabel.text = value
+            } else {
+                outputLabel.text = ""
+            }
+        }else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
+    }
+    
+    deinit {
+        model.removeObserver(self, forKeyPath: "uppercased")
+    }
 }
 
 @objc class ModelObject: NSObject {
