@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, Observer {
+class ViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var outputLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
@@ -19,10 +19,20 @@ class ViewController: UIViewController, Observer {
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.addTarget(self, action: #selector(textFieldChanged), forControlEvents: UIControlEvents.EditingChanged)
-        textField.addTarget(self, action: #selector(textFieldChanged), forControlEvents: UIControlEvents.ValueChanged)
+        
         countLabel.text = "0"
         
-        observables.append(KVObservable(obj: model, keypath: "uppercased", observer: self))
+        let ucaseObservable = KVObservable(obj: model, keypath: "uppercased")
+        ucaseObservable.subscribe({ value in
+            self.outputLabel.text = value
+        })
+        observables.append(ucaseObservable)
+        
+        let changedObservable = KVObservable(obj: textField, keypath: "text")
+        changedObservable.subscribe { value in
+            self.model.text = value
+        }
+        observables.append(changedObservable)
         
     }
     
@@ -34,12 +44,7 @@ class ViewController: UIViewController, Observer {
     @IBAction func outOfBandTapped(sender: AnyObject) {
         let someStr = "Out of band tapped"
         textField.text = someStr
-        model.text = someStr
         countLabel.text = String(model.charCount)
-    }
-    
-    func next(value: String?) {
-        outputLabel.text = value
     }
 
 }
