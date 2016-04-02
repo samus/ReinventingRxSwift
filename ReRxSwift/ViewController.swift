@@ -12,7 +12,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var outputLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
-
+    @IBOutlet weak var fizzbuzzLabel: UILabel!
+    
     let model = ModelObject()
     var observables = [ObservableType]()
     
@@ -40,6 +41,35 @@ class ViewController: UIViewController {
         }
         observables.append(countObservable)
         
+        let fbObservable = KVObservable<Int>(obj: model, keypath: "charCount").filter { (value) -> Bool in
+            guard let num = value else {
+                return false
+            }
+            switch num {
+            case _ where num <= 0:
+                return false
+            default:
+                return true
+            }
+        }.map { (value) -> String in
+            switch value {
+            case _ where value % 3 == 0 && value % 5 == 0:
+                return "fizz buzz"
+            case _ where value % 3 == 0:
+                return "fizz"
+            case _ where value % 5 == 0:
+                return "buzz"
+            default:
+                return ""
+            }
+        }
+        
+        fbObservable.subscribe { (fb) in
+            self.fizzbuzzLabel.text = fb
+        }
+        
+        observables.append(fbObservable)
+
     }
     
     func textFieldChanged(sender: AnyObject) {

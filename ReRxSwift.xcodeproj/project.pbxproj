@@ -17,6 +17,7 @@
 		094B58BB1CB01F6200335E7C /* KVObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094B58BA1CB01F6200335E7C /* KVObservable.swift */; };
 		094B58DB1CB0787E00335E7C /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094B58DA1CB0787E00335E7C /* Printer.swift */; };
 		094B58DD1CB078FC00335E7C /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094B58DC1CB078FC00335E7C /* Map.swift */; };
+		094B58DF1CB07E1B00335E7C /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094B58DE1CB07E1B00335E7C /* Filter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		094B58BA1CB01F6200335E7C /* KVObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KVObservable.swift; sourceTree = "<group>"; };
 		094B58DA1CB0787E00335E7C /* Printer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Printer.swift; sourceTree = "<group>"; };
 		094B58DC1CB078FC00335E7C /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		094B58DE1CB07E1B00335E7C /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				094B58BA1CB01F6200335E7C /* KVObservable.swift */,
 				094B58DA1CB0787E00335E7C /* Printer.swift */,
 				094B58DC1CB078FC00335E7C /* Map.swift */,
+				094B58DE1CB07E1B00335E7C /* Filter.swift */,
 			);
 			path = ReRxSwift;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				094B58DD1CB078FC00335E7C /* Map.swift in Sources */,
+				094B58DF1CB07E1B00335E7C /* Filter.swift in Sources */,
 				094B58DB1CB0787E00335E7C /* Printer.swift in Sources */,
 				094B588E1CAF56EB00335E7C /* ViewController.swift in Sources */,
 				094B58BB1CB01F6200335E7C /* KVObservable.swift in Sources */,
