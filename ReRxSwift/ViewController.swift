@@ -32,13 +32,11 @@ class ViewController: UIViewController {
         }
         observables.append(changedObservable)
         
-        let countObservable = KVObservable<Int>(obj: model, keypath: "charCount")
+        let countObservable = KVObservable<Int>(obj: model, keypath: "charCount").map { (value) -> String in
+            return String(value)
+        }
         countObservable.subscribe { value in
-            if let val = value {
-                self.countLabel.text = String(val)
-            }else {
-                self.countLabel.text = "0"
-            }
+            self.countLabel.text = value
         }
         observables.append(countObservable)
         
