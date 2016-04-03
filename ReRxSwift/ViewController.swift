@@ -8,6 +8,9 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
+
 class ViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var outputLabel: UILabel!
@@ -15,42 +18,42 @@ class ViewController: UIViewController {
 
     let model = ModelObject()
     
+    let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        textField.addTarget(self, action: #selector(textFieldChanged), forControlEvents: UIControlEvents.EditingChanged)
-        textField.addTarget(self, action: #selector(textFieldChanged), forControlEvents: UIControlEvents.ValueChanged)
-        outputLabel.text = ""
-        countLabel.text = "0"
+        
+        textField.rx_text.bindTo(model.text).addDisposableTo(disposeBag)
+        model.text.asObservable().subscribeNext { val in
+            self.textField.text = val
+        }.addDisposableTo(disposeBag)
+        
+        model.uppercased.bindTo(outputLabel.rx_text).addDisposableTo(disposeBag)
+        model.charCount.map { val -> String in
+            return String(val)
+        }.bindTo(countLabel.rx_text).addDisposableTo(disposeBag)
+        
     }
     
-    func textFieldChanged(sender: AnyObject) {
-        model.text = textField.text
-        outputLabel.text = model.uppercased
-        countLabel.text = String(model.charCount)
-    }
     
     @IBAction func outOfBandTapped(sender: AnyObject) {
         let someStr = "Out of band tapped"
-        textField.text = someStr
-        model.text = someStr
-        outputLabel.text = model.uppercased
-        countLabel.text = String(model.charCount)
+        model.text.value = someStr
     }
 
 }
 
-@objc class ModelObject: NSObject {
-    var text: String? {
-        didSet {
-            if let text = text {
-                uppercased = text.uppercaseString
-                charCount = text.characters.count
-            } else {
-                uppercased = nil
-            }
+class ModelObject {
+    let text = Variable<String>("")
+    let charCount: Observable<Int>
+    let uppercased: Observable<String>
+    
+    init() {
+        charCount = text.asObservable().map{ val -> Int in
+            return val.characters.count
+        }
+        uppercased = text.asObservable().map{ val -> String in
+            return val.uppercaseString
         }
     }
-    dynamic private (set) var charCount = 0
-    dynamic private (set) var uppercased: String?
-    
 }
