@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var outputLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var fizzbuzzLabel: UILabel!
 
     let model = ModelObject()
     
@@ -32,6 +33,8 @@ class ViewController: UIViewController {
         model.charCount.map { val -> String in
             return String(val)
         }.bindTo(countLabel.rx_text).addDisposableTo(disposeBag)
+        
+        model.fizzbuzz().bindTo(fizzbuzzLabel.rx_text).addDisposableTo(disposeBag)
         
     }
     
@@ -55,5 +58,29 @@ class ModelObject {
         uppercased = text.asObservable().map{ val -> String in
             return val.uppercaseString
         }
+    }
+    
+    func fizzbuzz() -> Observable<String> {
+        return Observable.create({(observer) -> Disposable in
+            observer.onNext("")
+            var disposable: Disposable? = self.charCount.subscribeNext({ count in
+                if (count == 0) {
+                    return
+                }
+                if (count % 3 == 0 && count % 5 == 0) {
+                    observer.onNext("fizzbuzz")
+                }else if (count % 3 == 0) {
+                    observer.onNext("fizz")
+                }else if (count % 5 == 0) {
+                    observer.onNext("buzz")
+                }
+            })
+            return AnonymousDisposable{
+                observer.onCompleted()
+                if (disposable != nil) {
+                    disposable = nil
+                }
+            }
+        })
     }
 }

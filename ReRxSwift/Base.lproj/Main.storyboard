@@ -43,13 +43,21 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouL-Pd-uFr">
+                                <rect key="frame" x="279" y="190" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="1YI-uG-BDC" firstAttribute="top" secondItem="auq-T6-aTa" secondAttribute="bottom" constant="-1" id="Akg-Si-QCV"/>
                             <constraint firstItem="auq-T6-aTa" firstAttribute="trailing" secondItem="UHA-gh-1wB" secondAttribute="trailing" id="CdG-XL-dbU"/>
                             <constraint firstItem="DGD-AM-59V" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="EJ2-CK-VBc"/>
+                            <constraint firstItem="ouL-Pd-uFr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="U5N-py-1S5"/>
                             <constraint firstItem="auq-T6-aTa" firstAttribute="top" secondItem="UHA-gh-1wB" secondAttribute="bottom" constant="10" id="Vdr-dD-a4V"/>
+                            <constraint firstItem="ouL-Pd-uFr" firstAttribute="top" secondItem="1YI-uG-BDC" secondAttribute="bottom" constant="17" id="WCK-Ad-f8R"/>
                             <constraint firstItem="UHA-gh-1wB" firstAttribute="top" secondItem="DGD-AM-59V" secondAttribute="bottom" constant="34" id="cSY-28-8e6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1YI-uG-BDC" secondAttribute="trailing" id="iHp-Y6-tpa"/>
                             <constraint firstItem="DGD-AM-59V" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kBt-bT-elc"/>
@@ -60,6 +68,7 @@
                     </view>
                     <connections>
                         <outlet property="countLabel" destination="auq-T6-aTa" id="fej-I9-Cnt"/>
+                        <outlet property="fizzbuzzLabel" destination="ouL-Pd-uFr" id="J7y-cB-RMh"/>
                         <outlet property="outputLabel" destination="UHA-gh-1wB" id="NPL-Vh-40I"/>
                         <outlet property="textField" destination="DGD-AM-59V" id="ypH-mq-zeS"/>
                     </connections>
