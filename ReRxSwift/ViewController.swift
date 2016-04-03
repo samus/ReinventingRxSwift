@@ -38,7 +38,6 @@ class ViewController: UIViewController {
         
     }
     
-    
     @IBAction func outOfBandTapped(sender: AnyObject) {
         let someStr = "Out of band tapped"
         model.text.value = someStr
@@ -61,26 +60,19 @@ class ModelObject {
     }
     
     func fizzbuzz() -> Observable<String> {
-        return Observable.create{ observer -> Disposable in
-            let subscription = self.charCount.subscribe({ e in
-                switch e {
-                case .Next(let count):
-                    if (count == 0) {
-                        observer.onNext("")
-                    } else if (count % 3 == 0 && count % 5 == 0) {
-                        observer.onNext("fizzbuzz")
-                    }else if (count % 3 == 0) {
-                        observer.onNext("fizz")
-                    }else if (count % 5 == 0) {
-                        observer.onNext("buzz")
-                    }
-                case .Error(let err):
-                    observer.onError(err)
-                case .Completed:
-                    observer.onCompleted()
-                }
-            })
-            return subscription
+        return charCount.asObservable().filter({ (val) -> Bool in
+            return val % 3 == 0 || val % 5 == 0
+        }).map { (count) -> String in
+            if (count == 0) {
+                return ""
+            } else if (count % 3 == 0 && count % 5 == 0) {
+                return "fizzbuzz"
+            }else if (count % 3 == 0) {
+                return "fizz"
+            }else if (count % 5 == 0) {
+                return "buzz"
+            }
+            return ""
         }
     }
 }
