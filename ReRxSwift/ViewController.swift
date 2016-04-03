@@ -61,26 +61,26 @@ class ModelObject {
     }
     
     func fizzbuzz() -> Observable<String> {
-        return Observable.create({(observer) -> Disposable in
-            observer.onNext("")
-            var disposable: Disposable? = self.charCount.subscribeNext({ count in
-                if (count == 0) {
-                    return
-                }
-                if (count % 3 == 0 && count % 5 == 0) {
-                    observer.onNext("fizzbuzz")
-                }else if (count % 3 == 0) {
-                    observer.onNext("fizz")
-                }else if (count % 5 == 0) {
-                    observer.onNext("buzz")
+        return Observable.create{ observer -> Disposable in
+            let subscription = self.charCount.subscribe({ e in
+                switch e {
+                case .Next(let count):
+                    if (count == 0) {
+                        observer.onNext("")
+                    } else if (count % 3 == 0 && count % 5 == 0) {
+                        observer.onNext("fizzbuzz")
+                    }else if (count % 3 == 0) {
+                        observer.onNext("fizz")
+                    }else if (count % 5 == 0) {
+                        observer.onNext("buzz")
+                    }
+                case .Error(let err):
+                    observer.onError(err)
+                case .Completed:
+                    observer.onCompleted()
                 }
             })
-            return AnonymousDisposable{
-                observer.onCompleted()
-                if (disposable != nil) {
-                    disposable = nil
-                }
-            }
-        })
+            return subscription
+        }
     }
 }
